@@ -73,8 +73,6 @@ flowchart LR
 | [awesome-patent](https://github.com/linuxsuren/awesome-patent) | 具身智能与巡检机器人专利精选：按技术领域与公司双维度收录，附 Mermaid 全景脑图 | — |
 | [graph-patent](https://github.com/linuxsuren/graph-patent) | 专利力导向图查询与展示：专利—公司—技术领域三层图谱，数据来自 awesome-patent | Vue |
 
-> 💡 巡检平台（robot-platform 系列）、导航系统（device-robot-navigation）等核心工程仓库目前为私有，暂未收录；开源后将持续补充到本索引。
-
 ## 🤝 贡献
 
 - 发现收录缺失或描述不准确？欢迎提 [Issue](https://github.com/linuxsuren/embodied-robotics-hub/issues) 或 PR。
