@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+  schedule:
+    - cron: '0 18 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  link-check:
+    name: Link Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify all indexed repos exist
+        run: |
+          set -e
+          fail=0
+          grep -oE 'https://github\.com/linuxsuren/[A-Za-z0-9._-]+' README.md \
+            | grep -v 'embodied-robotics-hub' | sort -u > repos.txt
+          while read -r url; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' -L "$url")
+            if [ "$code" != "200" ]; then
+              echo "::error file=README.md::broken link $url ($code)"
+              fail=1
+            fi
+          done < repos.txt
+          exit $fail
