@@ -8,48 +8,29 @@
 [![License](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 [![GitHub](https://img.shields.io/badge/GitHub-linuxsuren%2Fembodied--robotics--hub-181717?logo=github)](https://github.com/linuxsuren/embodied-robotics-hub)
 
-具身智能（Embodied AI）与巡检机器人研发工具集索引：把 [linuxsuren](https://github.com/linuxsuren) 名下分散的机器人相关仓库——平台、导航、相机、视觉识别、设备接入、专利——按研发链路串联起来，方便一站式找到能直接用的工具。
+具身智能（Embodied AI）与巡检机器人研发工具集索引：把 [linuxsuren](https://github.com/linuxsuren) 名下分散的机器人相关公开仓库——导航、相机、视觉识别、设备接入、专利——按研发链路串联起来，方便一站式找到能直接用的工具。
 
 ## 🗺️ 研发链路全景
 
 ```mermaid
 flowChart LR
-    subgraph 感知["感知与相接"]
+    subgraph 感知["感知与接入"]
         CAM[相机/云台] --> ONVIF[ONVIF 适配层]
         MODBUS[Modbus 设备]
     end
     subgraph 自主["自主与导航"]
-        SLAM[SLAM 建图] --> NAV[Nav2 导航] --> SIM[仿真验证]
+        SLAM[SLAM 建图] --> SIM[仿真验证]
     end
-    subgraph 平台["平台与控制"]
-        CTRL[巡检控制器] --> PLAT[巡检平台]
-        PLAT --> MCP[MCP / LLM 接入]
-        PLAT --> UI[Web 控制台]
-    end
-    AI[视觉识别 / 姿态估计] --> PLAT
-    ONVIF --> PLAT
-    MODBUS --> PLAT
-    NAV --> CTRL
-    PATENT[专利情报] -.支撑.-> 感知 & 自主 & 平台
+    AI[视觉识别 / 姿态估计]
+    PATENT[专利情报] -.支撑.-> 感知 & 自主 & AI
 ```
 
 ## 📦 仓库索引
-
-### 巡检平台与控制
-
-| 仓库 | 简介 | 技术栈 |
-|---|---|---|
-| [robot-platform](https://github.com/linuxsuren/robot-platform) | 具身机器人巡检平台：任务派发、事件上报、消息总线监控、地图与识别结果管理 | Go + Gin + SQLite |
-| [robot-platform-ui](https://github.com/linuxsuren/robot-platform-ui) | 巡检平台 Web 控制台 | TypeScript / Vue |
-| [robot-platform-mcp](https://github.com/linuxsuren/robot-platform-mcp) | 巡检平台的 MCP（Model Context Protocol）服务：223 个工具（98 查询 + 125 写控），让 LLM/Agent 直接操作巡检平台 | Go |
-| [robot-controller](https://github.com/linuxsuren/robot-controller) | 四足机器人（Unitree 机器狗）巡检控制器：Redis Stream 订阅任务，gRPC 驱动机器狗/云台/雷达执行子任务 | Go |
 
 ### 导航与 SLAM
 
 | 仓库 | 简介 | 技术栈 |
 |---|---|---|
-| [device-robot-navigation](https://github.com/linuxsuren/device-robot-navigation) | 多机器人多雷达自主导航：DLIO 3D 建图 → NDT+EKF 重定位 → Nav2 规划 → 纵深安全链；支持 Unitree A2/B2/Go2、Agibot D1 Max 等机型与禾赛/Livox/RoboSense 雷达 profile 热切换 | C++ / ROS 2 |
-| [pcd-to-nav2-map](https://github.com/linuxsuren/pcd-to-nav2-map) | 3D SLAM 点云（PCD）投影为 Nav2/ROS map_server 兼容的 2D 占据栅格，纯 Python 无需 ROS 环境 | Python |
 | [awesome-slam](https://github.com/linuxsuren/awesome-slam) | 精选 SLAM 资源收录：视觉/激光 SLAM 系统、优化框架、数据集、评估工具 | — |
 | [ros-sim-desktop](https://github.com/linuxsuren/ros-sim-desktop) | ROS 2 仿真桌面运行时镜像（rviz2 / Gazebo Classic + VNC + noVNC），amd64/arm64 多架构 | Shell / Docker |
 
@@ -58,7 +39,6 @@ flowChart LR
 | 仓库 | 简介 | 技术栈 |
 |---|---|---|
 | [onvif-go](https://github.com/linuxsuren/onvif-go) | Golang 的 ONVIF 协议实现 | Go |
-| [device-camera-onvif](https://github.com/linuxsuren/device-camera-onvif) | ONVIF IP 相机控制服务：gRPC 接口封装抓拍、媒体配置、PTZ、预置位 | Go |
 | [local-onvif-adapter](https://github.com/linuxsuren/local-onvif-adapter) | 把本地摄像头（内置/USB）暴露为标准 ONVIF 设备，内嵌 RTSP 服务器与 Web 管理台 | Go + Vue |
 | [skydroid-onvif-adapter](https://github.com/linuxsuren/skydroid-onvif-adapter) | 云卓云台相机 → 标准 ONVIF 设备：PTZ 翻译为 TP 协议，支持姿态回报与预置位 | Go |
 | [ysc6c-onvif-adapter](https://github.com/linuxsuren/ysc6c-onvif-adapter) | 萤石 C6C 云端摄像机 → 标准 ONVIF 设备（云端 API 转 ONVIF，补齐 NVR 接入能力） | Python |
@@ -92,7 +72,8 @@ flowChart LR
 |---|---|---|
 | [awesome-patent](https://github.com/linuxsuren/awesome-patent) | 具身智能与巡检机器人专利精选：按技术领域与公司双维度收录，附 Mermaid 全景脑图 | — |
 | [graph-patent](https://github.com/linuxsuren/graph-patent) | 专利力导向图查询与展示：专利—公司—技术领域三层图谱，数据来自 awesome-patent | Vue |
-| [robot-patent](https://github.com/linuxsuren/robot-patent) | 专利撰写过程库：巡检机器人相关专利从创意评估、撰写到申办的全流程记录 | — |
+
+> 💡 巡检平台（robot-platform 系列）、导航系统（device-robot-navigation）等核心工程仓库目前为私有，暂未收录；开源后将持续补充到本索引。
 
 ## 🤝 贡献
 
