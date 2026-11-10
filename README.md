@@ -13,7 +13,7 @@
 ## 🗺️ 研发链路全景
 
 ```mermaid
-flowChart LR
+flowchart LR
     subgraph 感知["感知与接入"]
         CAM[相机/云台] --> ONVIF[ONVIF 适配层]
         MODBUS[Modbus 设备]
